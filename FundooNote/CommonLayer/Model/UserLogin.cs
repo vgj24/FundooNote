@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonLayer
+namespace CommonLayer.Model
 {
-    public class UserRegistration
+    public class UserLogin
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        //Login Validation Entity
         public string Email { get; set; }
         public string Password { get; set; }
     }

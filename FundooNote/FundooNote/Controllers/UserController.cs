@@ -1,7 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
-using CommonLayer;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using RepositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,5 +36,23 @@ namespace FundooNote.Controllers
                 throw;
             }
         }
+        //User Login Api
+        [HttpPost("Login")]
+        public IActionResult Login(UserLogin userLogin)
+        {
+            try
+            {
+                var user = userBL.Login(userLogin.Email, userLogin.Password);
+                if (user != null)
+                    return this.Ok(new { Success = true, message = "Logged In", data = user });
+                else
+                    return this.BadRequest(new { Success = false, message = "Enter Valid Email and Password" });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
+
