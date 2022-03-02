@@ -58,6 +58,47 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public bool ResetPassword(string Email,string Password,string confirmPassword)
+        {
+            try
+            {
+                return userRL.ResetPassword(Email,Password,confirmPassword);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public Notes CreateNotes(UserNotesData notesCreate,long userId)
+        {
+            try
+            {
+        
+                return userRL.CreateNotes(notesCreate,userId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public Notes UpdateNotes(UserNotesData noteUpdate, long noteId, long userId)
+        {
+            try
+            {
+                return userRL.UpdateNotes(noteUpdate, noteId,userId);
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
     }
 }

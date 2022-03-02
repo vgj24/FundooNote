@@ -58,3 +58,5 @@ C:\Users\vgj24\source\repos\FundooNote\FundooNote\bin\Debug\netcoreapp3.1\Swashb
 C:\Users\vgj24\source\repos\FundooNote\FundooNote\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\vgj24\source\repos\FundooNote\FundooNote\obj\Debug\netcoreapp3.1\FundooNote.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\vgj24\source\repos\FundooNote\FundooNote\bin\Debug\netcoreapp3.1\Experimental.System.Messaging.dll
+C:\Users\vgj24\source\repos\FundooNote\FundooNote\obj\Debug\netcoreapp3.1\staticwebassets\FundooNote.StaticWebAssets.xml
+C:\Users\vgj24\source\repos\FundooNote\FundooNote\obj\Debug\netcoreapp3.1\scopedcss\bundle\FundooNote.styles.css

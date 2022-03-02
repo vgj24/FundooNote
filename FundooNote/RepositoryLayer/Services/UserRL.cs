@@ -80,7 +80,8 @@ namespace RepositoryLayer.Services
             var claims = new[] {
                 new Claim(ClaimTypes.Email,Email),
                 new Claim("Id",Id.ToString())
-            };
+
+        };
             //signature
             var token = new JwtSecurityToken(_appSettings["Jwt:Issuer"],
               _appSettings["Jwt:Issuer"],
@@ -90,16 +91,88 @@ namespace RepositoryLayer.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         // Adding forgot PAsswordmethod
-        public string ForgotPassword(string Email)
+        public string ForgotPassword(string email)
         {
             try
             {
-                var existingEmail = this.fundooContext.UserTable.Where(x => x.Email == Email).FirstOrDefault();
+                var existingEmail = this.fundooContext.UserTable.Where(e => e.Email == email).FirstOrDefault();
                 if (existingEmail != null)
                 {
                     var token = GenerateSecurityToken(existingEmail.Email, existingEmail.Id);
                     new MsMqModel().Sender(token);
                     return token;
+                }
+                else
+                    return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public bool ResetPassword(string Email,string Password,string confirmPassword)
+        {
+            try
+            {
+                if (Password.Equals(confirmPassword))
+                {
+                    var user = fundooContext.UserTable.Where(e => e.Email == Email).FirstOrDefault();
+                    user.Password = confirmPassword;
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        } 
+        public Notes CreateNotes(UserNotesData notesCreate,long userId)
+        {
+            try
+            {
+                    Notes newNotes = new Notes();
+                    newNotes.Title = notesCreate.Title;
+                    newNotes.Description = notesCreate.Description;
+                    newNotes.Remainder = notesCreate.Remainder;
+                    newNotes.Color = notesCreate.Color;
+                    newNotes.Image = notesCreate.Image;
+                    newNotes.IsArchive = notesCreate.IsArchive;
+                    newNotes.IsTrash = notesCreate.IsTrash;
+                    newNotes.IsPin = notesCreate.IsPin;
+                    newNotes.ModifiedAt = notesCreate.ModifiedAt;
+                    newNotes.CreateAt = notesCreate.CreateAt;
+                    newNotes.Id = userId;
+                    fundooContext.NotesTable.Add(newNotes);
+                    int result = fundooContext.SaveChanges();
+                    if (result > 0)
+                        return newNotes;
+                    else
+                        return null;
+                
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public Notes UpdateNotes(UserNotesData noteUpdate, long noteId,long userId)
+        {
+            try
+            {
+               Notes newNotes = new Notes();
+                // newNotes.Id = userId;
+                var result = fundooContext.NotesTable.Where(e => e.NotesId == noteId);
+                if (result.Title = noteUpdate.Title)
+                {
+                    fundooContext.NotesTable.Update(newNotes);
+                    fundooContext.SaveChanges();
+                    return newNotes;
                 }
                 else
                     return null;

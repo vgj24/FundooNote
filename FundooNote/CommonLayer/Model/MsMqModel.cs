@@ -20,7 +20,7 @@ namespace CommonLayer.Model
                 {
                     MessageQueue.Create(messageQueue.Path);
                 }
-                messageQueue.Formatter = new XmlMessageFormatter(new Type[] {typeof(string)});
+                messageQueue.Formatter = new XmlMessageFormatter(new Type[] {typeof(string)} );
                 messageQueue.ReceiveCompleted += MessageQueue_ReceiveCompleted; //way to implement delegate in program
                 messageQueue.Send(token);
                 messageQueue.BeginReceive();
@@ -40,14 +40,14 @@ namespace CommonLayer.Model
             try
             {
                 MailMessage mailMessage = new MailMessage();
-                SmtpClient smtpClient = new SmtpClient("smtp.gamil.com")
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
                     EnableSsl = true,
-                    Credentials = new NetworkCredential("vrushalimuley24@gmail.com", "vrushali123dummy")
+                   Credentials = new NetworkCredential("swarajoshi2022@gmail.com", "swarajoshi@1234")
                 };
-                mailMessage.From = new MailAddress("vrushalimuley24@gmail.com");
-                mailMessage.To.Add(new MailAddress("vrushalimuley24@gmail.com"));
+                mailMessage.From = new MailAddress("swarajoshi2022@gmail.com");
+                mailMessage.To.Add(new MailAddress("swarajoshi2022@gmail.com"));
                 mailMessage.Body = token;
                 mailMessage.Subject = "THis is Forgot Password Link";
                 smtpClient.Send(mailMessage);
@@ -57,5 +57,6 @@ namespace CommonLayer.Model
                 messageQueue.BeginReceive(); //if email not sent then in catch the event get triggerrd again
             }
         }
+
     }
 }

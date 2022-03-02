@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+//using System.IdentityModel.Tokens.Jwt;
 
 namespace FundooNote.Controllers
 {
@@ -53,16 +55,37 @@ namespace FundooNote.Controllers
                 throw;
             }
         }
+       
+        //Forgot Password API
         [HttpPost("ForgotPassword")]
         public IActionResult ForgotPassword(string Email)
         {
             try
             {
-                var user = userBL.ForgotPassword(Email);
-                if (user != null)
-                    return this.Ok(new { Success = true, message = "Email Sent Succesfully", data = user });
+                var token = userBL.ForgotPassword(Email);
+                if (token != null)
+                    return this.Ok(new { Success = true, message = "Email Sent Succesfully", data = token });
                 else
                     return this.BadRequest(new { Success = false, message = "Email not sent"});
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+       
+        //User  Reset PAssword
+        
+        [HttpPost("ResetPassword")]
+        public IActionResult ResetPassword(string Password,string confirmPassword)
+        {
+            try
+            {
+                var email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                if (userBL.ResetPassword(email, Password, confirmPassword))
+                    return this.Ok(new { Success = true, message = "Password Changed Successfully" });
+                else
+                    return this.BadRequest(new { Success = false, message = "Unable to Reset Password" });
             }
             catch (Exception)
             {
