@@ -8,7 +8,6 @@ using CommonLayer.Model;
 using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Services;
 
-
 namespace BusinessLayer.Services
 {
     public class CollaabBL : ICollabBL

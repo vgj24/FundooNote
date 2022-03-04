@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-
+using BusinessLayer.Interfaces;
 
 namespace FundooNote.Controllers
 {
@@ -16,8 +16,8 @@ namespace FundooNote.Controllers
     [ApiController]
     public class CollabController : ControllerBase
     {
-        private readonly CollaabBL collabratorBL;
-        public CollabController(CollaabBL collabratorBL)
+        private readonly ICollabBL collabratorBL;
+        public CollabController(ICollabBL collabratorBL)
         {
             this.collabratorBL = collabratorBL;
         }

@@ -68,7 +68,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var result = fundooContext.CollboratorTable.Where(e => e.Id == userId && e.NotesId == noteId).ToList();
+                var result = fundooContext.CollboratorTable.Where(e => e.NotesId == noteId).ToList();
                 if (result != null)
                 {
                     return result;
