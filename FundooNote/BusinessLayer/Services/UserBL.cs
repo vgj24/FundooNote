@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interfaces;
 using System;
@@ -58,6 +59,7 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        //Reset Password
         public bool ResetPassword(string Email,string Password,string confirmPassword)
         {
             try
@@ -70,36 +72,6 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-        public Notes CreateNotes(UserNotesData notesCreate,long userId)
-        {
-            try
-            {
-        
-                return userRL.CreateNotes(notesCreate,userId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-        public Notes UpdateNotes(UserNotesData noteUpdate, long noteId, long userId)
-        {
-            try
-            {
-                return userRL.UpdateNotes(noteUpdate, noteId,userId);
-
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-
-
     }
 }
 

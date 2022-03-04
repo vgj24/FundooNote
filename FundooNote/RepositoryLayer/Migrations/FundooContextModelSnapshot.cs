@@ -19,6 +19,31 @@ namespace RepositoryLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("RepositoryLayer.Entity.Collaborator", b =>
+                {
+                    b.Property<long>("CollabId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CollabEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("NotesId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("CollabId");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("NotesId");
+
+                    b.ToTable("CollboratorTable");
+                });
+
             modelBuilder.Entity("RepositoryLayer.Entity.Notes", b =>
                 {
                     b.Property<long>("NotesId")
@@ -94,6 +119,21 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserTable");
+                });
+
+            modelBuilder.Entity("RepositoryLayer.Entity.Collaborator", b =>
+                {
+                    b.HasOne("RepositoryLayer.Entity.User", "user")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RepositoryLayer.Entity.Notes", "note")
+                        .WithMany()
+                        .HasForeignKey("NotesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entity.Notes", b =>

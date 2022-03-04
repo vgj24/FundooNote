@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -38,6 +40,20 @@ namespace FundooNote
             services.AddControllers();
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
+            services.AddTransient<INotesBL,NotesBL>();
+            services.AddTransient<INotesRL, NotesRL>();
+            //services.AddTransient<ICollabBL, CollaabBL>();
+            //services.AddTransient<ICollabRL, CollabRL>();
+
+            //services.AddTransient<ICollabBL, CollaabBL>();
+            //services.AddTransient<ICollabRL, CollabRL>();
+
+            // services.AddTransient<ICollabratorBL, CollbratorBL>();
+            //services.AddTransient<ICollabratorRL, CollabratorRL>();
+
+
+
+
             //Adding Swagger in Services Collection.
             services.AddSwaggerGen(c =>
             {

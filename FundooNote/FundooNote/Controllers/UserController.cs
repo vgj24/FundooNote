@@ -76,7 +76,7 @@ namespace FundooNote.Controllers
        
         //User  Reset PAssword
         
-        [HttpPost("ResetPassword")]
+        [HttpPut("ResetPassword")]
         public IActionResult ResetPassword(string Password,string confirmPassword)
         {
             try
@@ -95,4 +95,6 @@ namespace FundooNote.Controllers
 
     }
 }
+
+
 

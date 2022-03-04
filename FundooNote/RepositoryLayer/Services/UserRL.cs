@@ -1,4 +1,7 @@
-﻿using CommonLayer.Model;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Context;
@@ -131,59 +134,9 @@ namespace RepositoryLayer.Services
                 throw;
             }
         } 
-        public Notes CreateNotes(UserNotesData notesCreate,long userId)
-        {
-            try
-            {
-                    Notes newNotes = new Notes();
-                    newNotes.Title = notesCreate.Title;
-                    newNotes.Description = notesCreate.Description;
-                    newNotes.Remainder = notesCreate.Remainder;
-                    newNotes.Color = notesCreate.Color;
-                    newNotes.Image = notesCreate.Image;
-                    newNotes.IsArchive = notesCreate.IsArchive;
-                    newNotes.IsTrash = notesCreate.IsTrash;
-                    newNotes.IsPin = notesCreate.IsPin;
-                    newNotes.ModifiedAt = notesCreate.ModifiedAt;
-                    newNotes.CreateAt = notesCreate.CreateAt;
-                    newNotes.Id = userId;
-                    fundooContext.NotesTable.Add(newNotes);
-                    int result = fundooContext.SaveChanges();
-                    if (result > 0)
-                        return newNotes;
-                    else
-                        return null;
-                
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-        public Notes UpdateNotes(UserNotesData noteUpdate, long noteId,long userId)
-        {
-            try
-            {
-               Notes newNotes = new Notes();
-                // newNotes.Id = userId;
-                var result = fundooContext.NotesTable.Where(e => e.NotesId == noteId);
-                if (result.Title = noteUpdate.Title)
-                {
-                    fundooContext.NotesTable.Update(newNotes);
-                    fundooContext.SaveChanges();
-                    return newNotes;
-                }
-                else
-                    return null;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+       
     }
+
 }
     
 
