@@ -1,26 +1,58 @@
-﻿using BusinessLayer.Interfaces;
-using CommonLayer.Model;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RepositoryLayer.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="NotesController.cs" company="Vrushali">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
+
 
 namespace FundooNote.Controllers
 {
+    using System;
+    using BusinessLayer.Interfaces;
+    using CommonLayer.Model;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.Caching.Memory;
+    using Newtonsoft.Json;
+    using RepositoryLayer.Entity;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/[controller]")]
     [ApiController]
     public class NotesController : ControllerBase
     {
         private readonly INotesBL notesBL;
-        public NotesController(INotesBL notesBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesController"/> class.
+        /// </summary>
+        /// <param name="notesBL">The notes bl.</param>
+        /// <param name="memoryCache">The memory cache.</param>
+        /// <param name="distributedCache">The distributed cache.</param>
+        public NotesController(INotesBL notesBL, IMemoryCache memoryCache, IDistributedCache distributedCache)
         {
             this.notesBL = notesBL;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
         }
 
+
+        /// <summary>
+        /// Creates the notes.
+        /// </summary>
+        /// <param name="notesCreate">The notes create.</param>
+        /// <returns>note</returns>
         [Authorize]
         [HttpPost("Create")]
         public IActionResult CreateNotes(UserNotesData notesCreate)
@@ -101,8 +133,9 @@ namespace FundooNote.Controllers
             }
 
         }
+        
         [Authorize]
-        [HttpGet("GetNotesTableData")]
+        [HttpGet("Get")]
         public IEnumerable<Notes> GetNotesTableData()
         {
             try
@@ -120,7 +153,30 @@ namespace FundooNote.Controllers
                 throw;
             }
         }
-
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllCustomersUsingRedisCache()
+        {
+            var cacheKey = "customerList";
+            string serializedCustomerList;
+            var customerList = new List<Notes>();
+            var redisCustomerList = await distributedCache.GetAsync(cacheKey);
+            if (redisCustomerList != null)
+            {
+                serializedCustomerList = Encoding.UTF8.GetString(redisCustomerList);
+                customerList = JsonConvert.DeserializeObject<List<Notes>>(serializedCustomerList);
+            }
+            else
+            {
+                customerList = (List<Notes>)notesBL.GetNotesTableData();
+                serializedCustomerList = JsonConvert.SerializeObject(customerList);
+                redisCustomerList = Encoding.UTF8.GetBytes(serializedCustomerList);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisCustomerList, options);
+            }
+            return Ok(customerList);
+        }
         [Authorize]
         [HttpPut("IsPin")]
         public IActionResult IsPinSetting(long userId, long NoteId)

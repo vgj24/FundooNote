@@ -1,16 +1,25 @@
-﻿using BusinessLayer.Interfaces;
-using CommonLayer.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-//using System.IdentityModel.Tokens.Jwt;
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserController.cs" company="Vrushali">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace FundooNote.Controllers
 {
+    using System;
+    using BusinessLayer.Interfaces;
+    using CommonLayer.Model;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -21,6 +30,11 @@ namespace FundooNote.Controllers
             this.userBL = userBL;
         }
 
+        /// <summary>
+        /// Registers the specified regist.
+        /// </summary>
+        /// <param name="regist">The regist.</param>
+        /// <returns></returns>
         [HttpPost("Register")]
         public IActionResult Register(UserRegistration regist)
         {
@@ -38,7 +52,12 @@ namespace FundooNote.Controllers
                 throw;
             }
         }
-        //User Login Api
+
+        /// <summary>
+        /// User Login Api
+        /// </summary>
+        /// <param name="userLogin"></param>
+        /// <returns>login</returns>
         [HttpPost("Login")]
         public IActionResult Login(UserLogin userLogin)
         {
@@ -55,8 +74,12 @@ namespace FundooNote.Controllers
                 throw;
             }
         }
-       
-        //Forgot Password API
+
+        /// <summary>
+        /// Forgot Password API
+        /// </summary>
+        /// <param name="Email"></param>
+        /// <returns>password</returns>
         [HttpPost("ForgotPassword")]
         public IActionResult ForgotPassword(string Email)
         {
@@ -73,9 +96,14 @@ namespace FundooNote.Controllers
                 throw;
             }
         }
-       
-        //User  Reset PAssword
-        
+
+        /// <summary>
+        /// User  Reset PAssword
+        /// </summary>
+        /// <param name="Password"></param>
+        /// <param name="confirmPassword"></param>
+        /// <returns>password</returns>
+
         [HttpPut("ResetPassword")]
         public IActionResult ResetPassword(string Password,string confirmPassword)
         {

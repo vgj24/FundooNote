@@ -1,32 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using CommonLayer.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using RepositoryLayer.Context;
-using RepositoryLayer.Entity;
-using RepositoryLayer.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="NotesRL" company="Vrushali">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace RepositoryLayer.Services
 {
-   public class NotesRL:INotesRL
+    using System;
+    using System.Collections.Generic;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using CommonLayer.Model;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
+    using System.Linq;
+    using global::RepositoryLayer.Interfaces;
+    using global::RepositoryLayer.Context;
+    using global::RepositoryLayer.Entity;
+
+    public class NotesRL:INotesRL
     {
         private readonly FundooContext fundooContext;
         private readonly IConfiguration _appSettings;
-        //Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesRL"/> class.
+        /// </summary>
+        /// <param name="fundooContext">The fundoo context.</param>
+        /// <param name="_appSettings">The application settings.</param>
         public NotesRL(FundooContext fundooContext, IConfiguration _appSettings)
         {
             this.fundooContext = fundooContext;
             this._appSettings = _appSettings;
         }
+
+        /// <summary>
+        /// Creates the notes.
+        /// </summary>
+        /// <param name="notesCreate">The notes create.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Noteinstance</returns>
         public Notes CreateNotes(UserNotesData notesCreate, long userId)
         {
             try
@@ -46,9 +58,13 @@ namespace RepositoryLayer.Services
                 fundooContext.NotesTable.Add(newNotes);
                 int result = fundooContext.SaveChanges();
                 if (result > 0)
+                {
                     return newNotes;
+                }
                 else
+                {
                     return null;
+                }
 
             }
             catch (Exception)
@@ -57,6 +73,13 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Updates the notes.
+        /// </summary>
+        /// <param name="noteUpdate">The note update.</param>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>result</returns>
         public Notes UpdateNotes(UpdateModel noteUpdate, long noteId)
         {
             try
@@ -82,6 +105,11 @@ namespace RepositoryLayer.Services
             }
         }
 
+        /// <summary>
+        /// Deletes the notes.
+        /// </summary>
+        /// <param name="noteId">The note identifier.</param>
+        /// <returns>booleanvalue</returns>
         public bool DeleteNotes(long noteId)
         {
             try
@@ -94,7 +122,9 @@ namespace RepositoryLayer.Services
                     return true;
                 }
                 else
+                {
                     return false;
+                }
             }
             catch (Exception)
             {
@@ -102,7 +132,12 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        //GelAll Notes API
+
+        /// <summary>
+        /// Gets all notes.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>list</returns>
         public IEnumerable<Notes> GetAllNotes(long userId)
         {
             try
@@ -113,7 +148,9 @@ namespace RepositoryLayer.Services
                     return result;
                 }
                 else
+                {
                     return null;
+                }
             }
             catch (Exception)
             {
@@ -122,7 +159,11 @@ namespace RepositoryLayer.Services
             }
 
         }
-        //GetNotesTable API
+
+        /// <summary>
+        /// Gets the notes table data.
+        /// </summary>
+        /// <returns>list</returns>
         public IEnumerable<Notes> GetNotesTableData()
         {
             try
@@ -133,7 +174,9 @@ namespace RepositoryLayer.Services
                     return result;
                 }
                 else
+                {
                     return null;
+                }
             }
             catch (Exception)
             {
@@ -141,7 +184,13 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        //CheckPin API
+
+        /// <summary>
+        /// Determines whether [is pin setting] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="NoteId">The note identifier.</param>
+        /// <returns>notesinstance</returns>
         public Notes IsPinSetting(long userId, long NoteId)
         {
             try
@@ -162,7 +211,9 @@ namespace RepositoryLayer.Services
                     return newNote;
                 }
                 else
+                {
                     return null;
+                }
             }
             catch (Exception)
             {
@@ -170,7 +221,13 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        //ISTrash API
+
+        /// <summary>
+        /// Determines whether [is trash setting] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="NoteId">The note identifier.</param>
+        /// <returns>notesinstance</returns>
         public Notes ISTrashSetting(long userId, long NoteId)
         {
             try
@@ -191,7 +248,9 @@ namespace RepositoryLayer.Services
                     return newNote;
                 }
                 else
-                    return null;
+                { 
+                    return null; 
+                }
             }
             catch (Exception)
             {
@@ -199,7 +258,13 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        //IsArchieve API
+
+        /// <summary>
+        /// Determines whether /[is archieve setting] [the specified user identifier].
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="NoteId">The note identifier.</param>
+        /// <returns>notesinstance</returns>
         public Notes ISArchieveSetting(long userId, long NoteId)
         {
             try
@@ -220,7 +285,9 @@ namespace RepositoryLayer.Services
                     return newNote;
                 }
                 else
+                {
                     return null;
+                }
             }
             catch (Exception)
             {
@@ -228,9 +295,16 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Colors the change.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="noteID">The note identifier.</param>
+        /// <param name="color">The color.</param>
+        /// <returns>newnote</returns>
         public Notes ColorChange(long userId, long noteID, string color)
         {
-
             try
             {
                 Notes newNote = fundooContext.NotesTable.FirstOrDefault(x => x.Id == userId && x.NotesId == noteID);
@@ -241,8 +315,9 @@ namespace RepositoryLayer.Services
                     return newNote;
                 }
                 else
+                {
                     return null;
-
+                }
             }
             catch (Exception)
             {
@@ -250,6 +325,14 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        /// <summary>
+        /// Uploads the image.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="noteId">The note identifier.</param>
+        /// <param name="image">The image.</param>
+        /// <returns>instance</returns>
         public Notes UploadImage(long userId, long noteId, IFormFile image)
         {
             try
@@ -276,7 +359,9 @@ namespace RepositoryLayer.Services
                     return newNote;
                 }
                 else
+                {
                     return null;
+                }
             }
             catch (Exception)
             {

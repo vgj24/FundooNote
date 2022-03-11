@@ -1,9 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="UserNotesData.cs" company="Vrushali">
+//     Company copyright tag.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace CommonLayer.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
     public class UserNotesData
     {
         public string Title { get; set; }
