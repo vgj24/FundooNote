@@ -16,6 +16,7 @@ namespace RepositoryLayer.Services
     using global::RepositoryLayer.Interfaces;
     using global::RepositoryLayer.Context;
     using global::RepositoryLayer.Entity;
+    using CommonLayer;
 
     public class NotesRL:INotesRL
     {
@@ -70,7 +71,8 @@ namespace RepositoryLayer.Services
             catch (Exception)
             {
 
-                throw;
+              throw new AppException("Email or password is incorrect");
+
             }
         }
 
@@ -96,7 +98,11 @@ namespace RepositoryLayer.Services
                     return result;
                 }
                 else
-                    return null;
+                {
+                    // return null;
+                    throw new AppException("Invalid noteid");
+
+                }
             }
             catch (Exception)
             {
@@ -123,7 +129,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return false;
+                    //return false;
+                    throw new AppException("Invalid noteid");
+
                 }
             }
             catch (Exception)
@@ -149,7 +157,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    //return null;
+                    throw new AppException("Invlalid userId");
+
                 }
             }
             catch (Exception)
@@ -175,7 +185,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    // return null;
+                    throw new AppException("No Notes yet");
+
                 }
             }
             catch (Exception)
@@ -212,7 +224,8 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    //return null;
+                    throw new AppException("NO note found");
                 }
             }
             catch (Exception)
@@ -248,8 +261,10 @@ namespace RepositoryLayer.Services
                     return newNote;
                 }
                 else
-                { 
-                    return null; 
+                {
+                    //return null; 
+                    throw new AppException("NO note found");
+
                 }
             }
             catch (Exception)
@@ -286,7 +301,8 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    // return null;
+                    throw new AppException("NO note found");
                 }
             }
             catch (Exception)
@@ -316,7 +332,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    // return null;
+                    throw new AppException("NO note found");
+
                 }
             }
             catch (Exception)
@@ -360,7 +378,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    //return null;
+                    throw new AppException("There is some problem in uploading image");
+
                 }
             }
             catch (Exception)

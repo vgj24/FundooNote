@@ -12,6 +12,7 @@ namespace RepositoryLayer.Services
     using Microsoft.Extensions.Configuration;
     using System.Collections.Generic;
     using System.Linq;
+    using CommonLayer;
 
     public class CollabRL : ICollabRL
     {
@@ -54,7 +55,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    // return null;
+                    throw new AppException("Invalid Data ");
+
                 }
             }
             catch (Exception)
@@ -83,7 +86,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 { 
-                    return false; 
+                    //return false;
+                    throw new AppException("Invalid userID or CollabID ");
+
                 }
             }
             catch (Exception)
@@ -110,7 +115,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    // return null;
+                    throw new AppException("Invalid NoteId ");
+
                 }
             }
             catch (Exception)
@@ -135,7 +142,9 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                    // return null;
+                    throw new AppException("NO any Collaborations");
+
                 }
             }
             catch (Exception)

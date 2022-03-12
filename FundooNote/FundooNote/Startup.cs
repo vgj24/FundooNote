@@ -128,6 +128,8 @@ namespace FundooNote
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fundoo");
             });
+            // global error handler
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

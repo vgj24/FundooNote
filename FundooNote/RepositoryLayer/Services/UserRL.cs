@@ -18,7 +18,8 @@ namespace RepositoryLayer.Services
     using System.Security.Claims;
     using System.Security.Cryptography;
     using System.Text;
-
+    using CommonLayer;
+    using System.Collections.Generic;
 
     public class UserRL : IUserRL
     {
@@ -81,28 +82,21 @@ namespace RepositoryLayer.Services
             {
                 ////if Email and password is empty return null. 
                 if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-                    return null;
-                ////Linq query matches given input in database and returns that entry from the database.
-                //var emailcheck = fundooContext.UserTable.Where(x => x.Email == email).FirstOrDefault();
-                //var decryptPass = Decrypt(emailcheck.Password);
-                //if (decryptPass == password)
-                //{
-                //    if (emailcheck != null)
-                //    {
-                //        return GenerateSecurityToken(emailcheck.Email, emailcheck.Id);
-                //    }
-                //    else
-                //        return null;
-                //}
-                //else
-                //{
-                //    return null;
-                //}
-                var result = this.fundooContext.UserTable.Where(x => x.Email == email && x.Password == password).FirstOrDefault();
-                var id = result.Id;
-                if (result != null)
                 {
-                    return GenerateSecurityToken(result.Email, id);
+                    throw new AppException("Email or password is incorrect");
+                }
+
+                //Linq query matches given input in database and returns that entry from the database.
+                var emailcheck = fundooContext.UserTable.Where(x => x.Email == email).FirstOrDefault();
+                var decryptPass = Decrypt(emailcheck.Password);
+                if (decryptPass == password)
+                {
+                    if (emailcheck != null)
+                    {
+                        return GenerateSecurityToken(emailcheck.Email, emailcheck.Id);
+                    }
+                    else
+                        return null;
                 }
                 else
                 {
@@ -157,13 +151,16 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return null;
+                  // return null;
+                    throw new KeyNotFoundException("Account not found");
+
+
                 }
             }
             catch (Exception)
             {
-
                 throw;
+
             }
         }
 
@@ -188,12 +185,12 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
-                    return false;
+                    throw new AppException("Email or password is incorrect");
+                   // return false;
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

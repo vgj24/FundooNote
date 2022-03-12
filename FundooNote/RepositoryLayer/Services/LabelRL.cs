@@ -11,7 +11,7 @@ namespace RepositoryLayer.Services
     using global::RepositoryLayer.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
-
+    using CommonLayer;
 
     namespace RepositoryLayer.Services
     {
@@ -52,7 +52,9 @@ namespace RepositoryLayer.Services
                     }
                     else
                     {
-                        return null;
+                        //return null;
+                        throw new AppException("label not added");
+
                     }
                 }
                 catch (Exception)
@@ -82,8 +84,11 @@ namespace RepositoryLayer.Services
                         return result;
                     }
                     else
-                    { 
-                        return null; 
+                    {
+                        //  return null; 
+                        throw new AppException("Invalid labelId");
+
+
                     }
                 }
                 catch (Exception)
@@ -110,7 +115,9 @@ namespace RepositoryLayer.Services
                     }
                     else
                     {
-                        return false;
+                        //  return false;
+                        throw new AppException("Invalid labelid");
+
                     }
                 }
                 catch (Exception)
@@ -135,7 +142,11 @@ namespace RepositoryLayer.Services
                         return result;
                     }
                     else
-                        return null;
+                    {
+                        //return null;
+                        throw new AppException("Invalid userId");
+
+                    }
                 }
                 catch (Exception)
                 {
@@ -160,7 +171,9 @@ namespace RepositoryLayer.Services
                     }
                     else
                     {
-                        return null;
+                        //return null;
+                        throw new AppException("invalid noteid ");
+
                     }
                 }
                 catch (Exception)
@@ -185,7 +198,9 @@ namespace RepositoryLayer.Services
                     }
                     else
                     {
-                        return null;
+                        //return null;
+                        throw new AppException("No Notes yet");
+
                     }
                 }
                 catch (Exception)
